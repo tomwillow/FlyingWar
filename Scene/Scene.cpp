@@ -11,16 +11,16 @@ using namespace std;
 using namespace glm;
 
 Scene::Scene(SceneController* in_controller) :
-	W(DEFAULT_WIDTH),H(DEFAULT_HEIGHT),sceneWidthMulti(2.0f),
+	W(DEFAULT_WIDTH),H(DEFAULT_HEIGHT),
 	controller(in_controller),
-	shader(SHADER_SPIRIT_VERTEX, SHADER_SPIRIT_FRAGMENT),
-	renderer(shader)
+	spiritShader(SHADER_SPIRIT_VERTEX, SHADER_SPIRIT_FRAGMENT),
+	renderer(spiritShader)
 {
 	OnSize(W, H);
 
-	shader.UseProgram();
+	spiritShader.UseProgram();
 	mat4 view(1.0f);
-	shader.Uniform("view", view);
+	spiritShader.Uniform("view", view);
 }
 
 
@@ -29,9 +29,9 @@ void Scene::OnSize(int in_width, int in_height)
 	W = in_width;
 	H = in_height;
 
-	shader.UseProgram();
+	spiritShader.UseProgram();
 	mat4 projection(1.0f);
 	projection = ortho(0.0f, (float)W, 0.0f, (float)H);
 
-	shader.Uniform("projection", projection);
+	spiritShader.Uniform("projection", projection);
 }

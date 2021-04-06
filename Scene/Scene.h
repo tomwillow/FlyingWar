@@ -23,9 +23,8 @@ public:
 	virtual void OnMouseButton(int button, int action) {}
 protected:
 	float W, H;
-	float sceneWidthMulti;
 	SceneController *controller;
-	TShader shader;
+	TShader spiritShader;
 	SpiritRenderer renderer;
 };
 

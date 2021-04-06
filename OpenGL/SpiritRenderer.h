@@ -14,6 +14,9 @@ public:
 	void Draw(TTexture& tex, glm::vec2 position = glm::vec2(0, 0),
 		glm::vec2 size = glm::vec2(10, 10), float deg = 0.0f);
 
+	void Draw(int tex_id, glm::vec2 position = glm::vec2(0, 0),
+		glm::vec2 size = glm::vec2(10, 10), float deg = 0.0f);
+
 	void DrawCenter(TTexture& tex, glm::vec2 position = glm::vec2(0, 0),
 		glm::vec2 size = glm::vec2(10, 10), float deg = 0.0f);
 protected:

@@ -2,6 +2,12 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
+using namespace std;
+
 TCamera::TCamera(float screenWidth, float screenHeight):screenWidth(screenWidth),screenHeight(screenHeight)
 {
 
@@ -23,13 +29,33 @@ glm::mat4& TCamera::GetViewMatrix()
 
 glm::mat4& TCamera::GetProjection()
 {
-	projection = glm::perspective(glm::radians(fov), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(fov), (float)screenWidth / (float)screenHeight, 0.1f, 100000.0f);
 	return projection;
+}
+
+void TCamera::SetPosition(glm::vec3 pos)
+{
+	cameraPos = pos;
+}
+
+void TCamera::SetDirection(glm::vec3 dir)
+{
+	cameraFront = dir;
 }
 
 glm::vec3& TCamera::GetPosition()
 {
 	return cameraPos;
+}
+
+glm::vec3 TCamera::GetTarget()
+{
+	return cameraPos+cameraFront;
+}
+
+glm::vec3& TCamera::GetDirection()
+{
+	return cameraFront;
 }
 
 void TCamera::SetPosDiff(glm::vec3 diff)
@@ -69,9 +95,16 @@ void TCamera::ProcessKeyBoard(GLFWwindow *window)
 		cameraPos += cameraSpeed * left;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
 		cameraPos.y -= cameraSpeed;
+		cout << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z << endl;
+	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+	{
 		cameraPos.y += cameraSpeed;
+		cout << cameraPos.x<<" "<<cameraPos.y<<" "<<cameraPos.z << endl;
+	}
+
 }
 
 void TCamera::ProcessMouseMovement(float xpos,float ypos)

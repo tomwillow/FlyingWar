@@ -58,34 +58,38 @@ TShader::TShader(std::string vertexShaderFileName, std::string fragmentShaderFil
 	{
 		char infoLog[512];
 		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		throw string("ERROR::SHADER::PROGRAM::LINKING_FAILED") + infoLog;
+		throw runtime_error(string("ERROR::SHADER::PROGRAM::LINKING_FAILED") + infoLog);
 	}
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
 
+TShader::~TShader()
+{
+	glDeleteProgram(shaderProgram);
+}
+
 void TShader::UseProgram()const
 {
 	glUseProgram(shaderProgram);
+	int err = glGetError();
+	assert(err == GL_NO_ERROR);
 }
 
 int TShader::GetLocation(std::string name)const
 {
-	int location = glGetUniformLocation(shaderProgram, name.c_str());
-
 #ifdef _DEBUG
-
 	//未UseProgram就Uniform会报错
 	int currentProgram;
 	glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
-	if (currentProgram != shaderProgram)
-		throw runtime_error("No use program");
+	assert(currentProgram = shaderProgram);
+#endif
+
+	int location = glGetUniformLocation(shaderProgram, name.c_str());
 
 	//没有找到则报错
-	if (location<0)
-		throw runtime_error("No shader program");
-#endif
+	assert(location >= 0);
 
 	return location;
 }

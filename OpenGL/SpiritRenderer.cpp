@@ -20,6 +20,15 @@ void SpiritRenderer::Draw(TTexture& tex, glm::vec2 position, glm::vec2 size, flo
 
 }
 
+void SpiritRenderer::Draw(int tex_id, glm::vec2 position, glm::vec2 size, float deg)
+{
+	SetModelMatrix(position, size, deg);
+	shader.Uniform("Tex", tex_id,0);
+
+	spirit.Bind();
+	spirit.DrawTriangles();
+}
+
 void SpiritRenderer::DrawCenter(TTexture& tex, glm::vec2 position, glm::vec2 size, float deg)
 {
 	SetCenterModelMatrix(position, size, deg);

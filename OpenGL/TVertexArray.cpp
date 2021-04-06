@@ -25,6 +25,7 @@ TVertexArray::TVertexArray(unsigned int bytes, const float* data, std::initializ
 TVertexArray::~TVertexArray()
 {
 	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 }
 
 

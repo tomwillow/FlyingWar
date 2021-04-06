@@ -13,7 +13,8 @@ using namespace std;
 SceneController::SceneController(GLFWwindow* in_glfw_window) :
 	glfw_window(in_glfw_window)
 {
-	GoCover();
+	//GoCover();
+	GoLevel(0);
 }
 
 void SceneController::GoCover()
@@ -25,7 +26,7 @@ void SceneController::GoLevel(int i)
 {
 	switch (i)
 	{
-	case 1:
+	case 0:
 		scene = make_unique<SceneLevel>(this);
 		break;
 	default:

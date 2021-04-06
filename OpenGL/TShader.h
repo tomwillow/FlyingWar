@@ -15,6 +15,8 @@ private:
 	inline int GetLocation(std::string name)const;
 public:
 	TShader(std::string vertexShaderFileName, std::string fragmentShaderFileName);
+	~TShader();
+
 	void UseProgram()const;
 
 	//传入uniform前必须先UseProgram

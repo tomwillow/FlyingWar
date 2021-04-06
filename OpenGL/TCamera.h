@@ -8,7 +8,7 @@ class TCamera
 private:
 	float screenWidth, screenHeight;
 	float fov = 45.0;
-	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 3.0f);//初始位置
+	glm::vec3 cameraPos = glm::vec3(0.0f, 5.0f, 15.0f);//初始位置
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);//朝向前方，即z负方向
 	glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -28,7 +28,11 @@ public:
 	//取得projection矩阵
 	glm::mat4& GetProjection();
 
+	void SetPosition(glm::vec3 pos);
+	void SetDirection(glm::vec3 dir);
 	glm::vec3& GetPosition();
+	glm::vec3 GetTarget();
+	glm::vec3& GetDirection();
 
 	void SetPosDiff(glm::vec3 diff);
 

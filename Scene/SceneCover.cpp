@@ -14,18 +14,17 @@ SceneCover::SceneCover(SceneController* in_controller):
 	Scene(in_controller),
 	texBackground(TEXTURE_COVER)
 {
-	sceneWidthMulti = 1.0f;
 }
 
 
 void SceneCover::DrawBackground()
 {
-	renderer.Draw(texBackground, vec2(0, 0), vec2(W * sceneWidthMulti, H));
+	renderer.Draw(texBackground, vec2(0, 0), vec2(W, H));
 }
 
 void SceneCover::DrawBackground(SpiritRenderer& in_renderer)
 {
-	in_renderer.Draw(texBackground, vec2(0, 0), vec2(W * sceneWidthMulti, H));
+	in_renderer.Draw(texBackground, vec2(0, 0), vec2(W, H));
 }
 
 void SceneCover::DrawBackground(SpiritRenderer& in_renderer, glm::vec2 pos, glm::vec2 size)
@@ -42,6 +41,6 @@ void SceneCover::OnKey(int key, int action)
 {
 	if (key == GLFW_KEY_ENTER && action == GLFW_RELEASE)
 	{
-		controller->GoLevel(1);
+		controller->GoLevel(0);
 	}
 }
