@@ -170,6 +170,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	controller->OnMouseMove(xpos, H-ypos);
 }
 
+//初始化IMGUI，传入字体文件名，字体大小
 void InitImGui(GLFWwindow* window, std::string font_name, int font_size)
 {
 	//imgui

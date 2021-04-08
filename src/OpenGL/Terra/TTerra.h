@@ -18,7 +18,7 @@ private:
 	unsigned int x_count, y_count;//x y区段数量 = x y方向点数量+1
 	unsigned int x_point_count, y_point_count;//x y方向点数量
 	unsigned int triangle_count;//三角形数量
-	const int data_step = 6;//每组数据含 [3个点坐标，3个法向量坐标] = 6个
+	const int data_step = 8;//每组数据含 [3个点坐标，3个法向量坐标，2个贴图坐标] = 6个
 	float* terra;//点集数据
 	unsigned int* terra_indices;//索引数据
 

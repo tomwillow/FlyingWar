@@ -45,7 +45,8 @@ SceneLevel::SceneLevel(SceneController* in_controller) :
 	texSpotPlane(TEXTURE_SPOT_PLANE),
 	texSpotCamera(TEXTURE_SPOT_CAMERA),
 	texSpot(TEXTURE_SPOT),
-	modelBullet(MODEL_BULLET)
+	modelBullet(MODEL_BULLET),
+	texGround(TEXTURE_GROUND)
 {
 	camera = make_unique<TCamera>(W, H);
 	skybox = make_unique<TSkyBox>(
@@ -83,6 +84,10 @@ SceneLevel::~SceneLevel()
 	for (auto bullet : bullets)
 		delete bullet;
 	bullets.clear();
+
+	for (auto enemy : enemies)
+		delete enemy;
+	enemies.clear();
 }
 
 void SceneLevel::BeforeGLClear(float dt)
@@ -116,13 +121,13 @@ void SceneLevel::BeforeGLClear(float dt)
 	if (!info.empty())
 	{
 		pause = true;
-		ImGui::OpenPopup(u8"排行榜");
+		ImGui::OpenPopup(u8"游戏结束");
 	}
 
 	// Always center this window when appearing
 	ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 	ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-	if (ImGui::BeginPopupModal(u8"排行榜", NULL, ImGuiWindowFlags_AlwaysAutoResize))//ImGuiWindowFlags_NoCollapse
+	if (ImGui::BeginPopupModal(u8"游戏结束", NULL, ImGuiWindowFlags_AlwaysAutoResize))//ImGuiWindowFlags_NoCollapse
 	{
 		//显示鼠标
 		glfwSetInputMode(controller->glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -166,9 +171,9 @@ void SceneLevel::Render(float dt)
 	}
 	//设置摄像机
 	{
-		vec3 cpos = dir * dist;
+		vec3 cpos = dir * watch_dist;
 		mat4 R_cpos(1.0f);
-		R_cpos = rotate(R_cpos, radians(165.0f), right);
+		R_cpos = rotate(R_cpos, radians(watch_angle), right);
 		cpos = vec3(R_cpos * vec4(cpos, 0));
 
 		camera->SetPosition(pos + cpos);//vec3(0, 5, 15)
@@ -182,7 +187,7 @@ void SceneLevel::Render(float dt)
 	UpdateAndDrawEnemies(dt);
 
 
-
+	//渲染地面
 	{
 		terraShader.UseProgram();
 		mat4 model(1.0f);
@@ -196,12 +201,14 @@ void SceneLevel::Render(float dt)
 		vec3 lightColor{ 1,1,1 };
 		terraShader.Uniform("lightColor", lightColor);
 		//camera->GetPosition(), camera->GetDirection();
+
+		terraShader.Uniform("Tex", texGround);
 		terras.Draw(camera->GetPosition(), camera->GetDirection());
 	}
 
 
 
-	//
+	//绘制玩家
 	{
 		mat4 Mlookat = lookAt(pos, pos + dir, up);
 
@@ -288,8 +295,8 @@ void SceneLevel::Render(float dt)
 #endif
 	}
 
-	{
 		//绘制天空盒
+	{
 		skybox->Draw(camera->GetViewMatrix(), camera->GetProjection());
 
 		camera->RefreshTime();
@@ -325,6 +332,7 @@ void SceneLevel::Render(float dt)
 	}
 	glEnable(GL_DEPTH_TEST);
 
+	//绘制IMGUI
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	//更新标题栏
@@ -454,7 +462,7 @@ void SceneLevel::UpdateAndDrawBullets(float dt)
 	//按下空格，且流逝时间已超过冷却时间
 	if (controller->keys[GLFW_KEY_SPACE] && t - last_bullet >= bullet_interval)
 	{
-		//新建子弹，速度增加200
+		//新建子弹，速度增加800
 		Bullet* bullet = new Bullet(pos, dir * v + (dir * 800.0f));
 		bullets.push_back(bullet);
 
@@ -466,7 +474,7 @@ void SceneLevel::UpdateAndDrawBullets(float dt)
 		auto& bullet = *it;
 		if (!pause)
 			bullet->UpdatePos(dt);
-		bool dead = bullet->pos.y <= 0;//已坠地
+		bool dead = bullet->pos.y <= 0;//子弹已坠地
 
 		if (dead)
 		{
@@ -483,21 +491,23 @@ void SceneLevel::UpdateAndDrawBullets(float dt)
 
 void SceneLevel::UpdateAndDrawEnemies(float dt)
 {
-	const int enemy_limit = 20;
+	//敌机低于上限则添加
 	if (enemies.size() < enemy_limit)
 	{
-		uniform_real_distribution<float> uni_angle(-45, 45);
-		uniform_real_distribution<float> uni_r(200, 8000);
-		uniform_real_distribution<float> uni_altitude(-100, 100);
+		uniform_real_distribution<float> uni_angle(-45, 45);//角度范围
+		uniform_real_distribution<float> uni_r(200, 8000);//距离范围
+		uniform_real_distribution<float> uni_altitude(-100, 100);//高度范围
 		for (int i = enemies.size(); i < enemy_limit; ++i)
 		{
-			vec3 enemy_pos = dir * uni_r(eng);
-			mat4 R(1.0f);
-			R = translate(R, pos);
-			R = rotate(R, uni_angle(eng), init_up);
-			enemy_pos.y += uni_altitude(eng);
+			vec3 enemy_pos = dir * uni_r(eng);//初始化敌机位于原点dir方向正前方 距离r处
+
+			enemy_pos.y += uni_altitude(eng);//设置敌机海拔
 			if (enemy_pos.y < 200.0f)
 				enemy_pos.y += 200.0f;
+
+			mat4 R(1.0f);
+			R = translate(R, pos);//平移pos距离
+			R = rotate(R, uni_angle(eng), init_up);//以原点进行旋转
 			enemy_pos = vec3(R * vec4(enemy_pos, 1));
 
 			Enemy* enemy = new Enemy(enemy_pos, pos, 50.0f);
@@ -515,16 +525,17 @@ void SceneLevel::UpdateAndDrawEnemies(float dt)
 		if (!pause)
 			enemy->UpdatePos(dt);
 
-		float dist = distance(enemy->pos, pos);
-		bool dead = dist > 1000;
+		float dist = distance(enemy->pos, pos);//和玩家距离
+		bool dead = dist > 1000;//超出限定距离销毁敌机
 
 		if (!dead)
 		{
+			//遍历子弹进行碰撞检测
 			for (auto bullet : bullets)
 			{
 				float dist = distance(bullet->pos, enemy->pos);
-				//if (Conflict(*bullet, *enemy))
-				if (dist < 20)
+				if (Conflict(*bullet, *enemy))
+				//if (dist < 20)
 				{
 					controller->effectPlayer.Play(EFFECT_BOMB);
 					shot_down++;
@@ -540,16 +551,11 @@ void SceneLevel::UpdateAndDrawEnemies(float dt)
 		}
 		else
 		{
-			if (dist < 10.0f)
+			if (dist < 10.0f)//和玩家撞机
 			{
 				player_is_dead = true;
 			}
-			//if (it == enemies.begin())
-			//{
 
-			//	cout << "enemy:" << enemy->pos.x << enemy->pos.y << enemy->pos.z << endl;
-			//	cout << "dist=" << dist << endl;
-			//}
 			enemy->Draw(plane, modelShader, *camera);
 			it++;
 

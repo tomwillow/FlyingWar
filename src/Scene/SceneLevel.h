@@ -38,47 +38,58 @@ protected:
 	virtual void AfterLose(std::string info);
 
 private:
+	bool pause = false;//是否暂停游戏
 	const glm::vec3 born_pos = { 0,500,0 };
 	const glm::vec3 init_dir = { 0,0,-1 };
 	const glm::vec3 init_up = { 0,1,0 };
 	const glm::vec3 init_right = { 1,0,0 };
-	bool pause = false;
 	glm::vec3 pos;
 	glm::vec3 dir;
 	glm::vec3 up = init_up;
 	glm::vec3 right = init_right;
 	float yaw=0,pitch = 0;
-	float v = 500.0f;//单位km/h
-	float dist = 20;
-	float angle = 75.0f;
+	float v = 500.0f;//初始速度，单位km/h
+	float watch_dist = 20;//摄像机离玩家距离
+	float watch_angle = 165.0f;//摄像机观察角度，从-z轴（正前方）向后旋转
 	bool player_is_dead = false;
 	bool falldown = false;
-	float left_time = 90.0f;
-	int shot_down = 0;
+	float left_time = 90.0f;//一回合时长，单位秒
+	int shot_down = 0;//击落敌机数量
 
+	//UI
 	TShader pureShader;//纯色着色器
 	PureRenderer pureRenderer;//纯色渲染器
 	TSpiritVertex spirit;
 	TFreeTypeDictionary freetype;
 	TTexture texArrow, texSpotPlane, texSpotCamera,texSpot;
+#ifdef _DEBUG
 	TBox box;
+#endif
 
+	//天空盒
 	std::unique_ptr<TCamera> camera;
 	std::unique_ptr<TSkyBox> skybox;
 
+	//地面
 	TShader terraShader;
 	TerraManager terras;
+	TTexture texGround;
 
+	//飞机
 	Model plane;
 	TShader modelShader;
 
+	//子弹
 	Model modelBullet;
 	std::vector<Bullet*> bullets;
-	std::vector<Enemy*> enemies;
 
-	void UpdateAndDrawBullets(float dt);
-	void UpdateAndDrawEnemies(float dt);
-	void UpdatePlayerPos(float dt);
+	//敌人
+	std::vector<Enemy*> enemies;
+	const int enemy_limit = 20;//敌机总数上限
+
+	void UpdateAndDrawBullets(float dt);//pause的影响已在函数内生效
+	void UpdateAndDrawEnemies(float dt);//pause的影响已在函数内生效
+	void UpdatePlayerPos(float dt);//函数内未受pause影响，需在外部判断
 };
 
 inline std::ostream& operator<<(std::ostream& out, glm::vec2 v)

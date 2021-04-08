@@ -3,7 +3,7 @@
 using namespace glm;
 
 Bullet::Bullet(glm::vec3 in_pos, glm::vec3 in_v):
-	TObject(in_pos,in_v,r)
+	TObject(in_pos,in_v, 1.0f)
 {
 }
 

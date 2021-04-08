@@ -17,7 +17,6 @@ public:
 
     virtual void UpdatePos(float dt) override;
 private:
-    const float r = 200.0f;
 
     glm::vec2 clipCoord;
 };

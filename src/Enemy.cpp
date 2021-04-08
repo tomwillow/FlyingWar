@@ -5,7 +5,7 @@
 using namespace glm;
 
 Enemy::Enemy(glm::vec3 in_pos, glm::vec3 in_target, float v):
-	TObject(in_pos,glm::normalize(in_target-in_pos)*v,r)
+	TObject(in_pos,glm::normalize(in_target-in_pos)*v, 20.0f)
 {
 }
 

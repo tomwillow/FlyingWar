@@ -33,15 +33,17 @@ public:
 	TFreeTypeDictionary(std::string font_name, int pixel_size = 48);
 	~TFreeTypeDictionary();
 
+	//把字符串的所有字符加载进字典
 	void AddCharacter(std::tstring s);
 
 	//按照像素位置显示文字，x,y以左下角为原点
+	//若s中的字符字典里没有，则会自动加载
 	void DrawByPixel(SpiritRenderer& renderer,std::tstring s, GLfloat x, GLfloat y);
 
 private:
 	std::string font_name;
 	int pixel_size;
 
-	std::unordered_map<TCHAR, Character> dict;
+	std::unordered_map<TCHAR, Character> dict;//字典
 };
 

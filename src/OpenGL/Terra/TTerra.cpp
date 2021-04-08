@@ -116,7 +116,7 @@ void TTerra::Init(FastNoise &noise,float max_altitude, float step)
 
 
 	{
-		//遍历所有点，填充 [data_step] 中的前三项：点坐标
+		//遍历所有点
 		int pt_index = 0;
 		float y = y_start;
 		for (int i = 0; i < y_point_count; ++i)
@@ -124,9 +124,14 @@ void TTerra::Init(FastNoise &noise,float max_altitude, float step)
 			float x = x_start;
 			for (int j = 0; j < x_point_count; ++j)
 			{
+				//填充 [data_step] 中的前三项：点坐标
 				terra[pt_index * data_step] = x;// + noise2.GetPerlin(x, y) * 0.5f + noise3.GetPerlin(x, y) * 0.05f + noise4.GetPerlin(x, y) * 0.005f
 				terra[pt_index * data_step + 1] = max_altitude *noise.GetPerlin(x, y);//  0.1*uni(e);//随机高度
 				terra[pt_index * data_step + 2] = y;
+
+				//
+				terra[pt_index * data_step + 6] = 1.0f / x_count * j;
+				terra[pt_index * data_step + 7] = 1.0f / y_count * i;
 
 				x += step;
 				pt_index++;
@@ -274,7 +279,7 @@ TTerra::TTerra(FastNoise& noise, float width,float height,float x_start,float y_
 	//Erosion();
 
 	//生成地形EBO
-	this->TElementBuffer::TElementBuffer(point_count * data_step * sizeof(float), terra, { 3,3 }, triangle_count * 3 * sizeof(unsigned int), terra_indices);
+	this->TElementBuffer::TElementBuffer(point_count * data_step * sizeof(float), terra, { 3,3,2 }, triangle_count * 3 * sizeof(unsigned int), terra_indices);
 }
 
 TTerra::~TTerra()

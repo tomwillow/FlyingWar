@@ -14,6 +14,5 @@ public:
 	void Draw(Model & modelBullet,TShader& shader,TCamera &camera);
 private:
 	//TBox vertex;
-	const float r = 1.0f;
 };
 

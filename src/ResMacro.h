@@ -22,7 +22,7 @@
 //#define MODEL_PLAYER_PLANE "model/F-15e/F-15e.obj"
 #define MODEL_BULLET "model/bullet_obj/bullet.obj"
 
-//±³¾°ÌùÍ¼
+//ÌùÍ¼
 #define TEXTURE_SKYBOX_RIGHT "textures/skybox/right.jpg"
 #define TEXTURE_SKYBOX_LEFT "textures/skybox/left.jpg"
 #define TEXTURE_SKYBOX_TOP "textures/skybox/top.jpg"
@@ -31,6 +31,8 @@
 #define TEXTURE_SKYBOX_BACK "textures/skybox/back.jpg"
 
 #define TEXTURE_COVER "Textures/cover.png"
+
+#define TEXTURE_GROUND "Textures/desert.bmp"
 
 #define TEXTURE_ARROW "Textures/arrow.png"
 #define TEXTURE_SPOT_PLANE "Textures/spot_plane.png"

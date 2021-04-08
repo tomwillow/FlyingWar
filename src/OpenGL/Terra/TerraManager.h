@@ -28,7 +28,7 @@ public:
 private:
 	const float block_size = 10000.0f;
 	const float step = 100.0f;
-	const float max_altitude = 200.0f;
+	const float max_altitude = 500.0f;
 	std::vector<TTerra*> storage;
 	std::unordered_map<glm::ivec2, TTerra*,hash_ivec2> terras;
 
