@@ -114,21 +114,9 @@ void TTerra::Init(FastNoise &noise,float max_altitude, float step)
 	triangle_count = x_count * y_count * 2;//三角形数量为方块数量2倍
 	terra_indices = new unsigned int[triangle_count * 3];//索引点数量为三角形数量3倍
 
-	//noise.SetSeed(0);
-
-	//FastNoise noise2;
-	//noise2.SetFrequency(0.5f * 1.0f / altitude);
-	//noise2.SetInterp(FastNoise::Quintic);
-
-	//FastNoise noise3;
-	//noise3.SetFrequency(1.0f * 1.0f / altitude);
-	//noise3.SetInterp(FastNoise::Quintic);
-
-	//FastNoise noise4;
-	//noise4.SetFrequency(8.0f * 1.0f / altitude);
-	//noise4.SetInterp(FastNoise::Quintic);
 
 	{
+		//遍历所有点，填充 [data_step] 中的前三项：点坐标
 		int pt_index = 0;
 		float y = y_start;
 		for (int i = 0; i < y_point_count; ++i)
@@ -149,6 +137,7 @@ void TTerra::Init(FastNoise &noise,float max_altitude, float step)
 	}
 
 	{
+		//填充索引数据，以及 [data_step] 中的第4-第6项：法向量坐标
 		int index = 0;
 		for (int y_index = 0; y_index < y_count + 1; ++y_index)//循环遍历所有点
 		{
