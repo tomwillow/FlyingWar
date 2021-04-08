@@ -12,6 +12,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #ifdef _DEBUG
 #pragma comment(lib,"glfw3d.lib")
 #pragma comment(lib,"opengl32.lib")
@@ -21,6 +25,10 @@
 
 #include <vector>
 #include <string>
+
+//dpi
+#include <ShellScalingAPI.h>
+#pragma comment(lib,"Shcore.lib")
 
 //myself
 #include "ResValue.h"
@@ -41,7 +49,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-
+void InitImGui(GLFWwindow* window, std::string font_name, int font_size);
 
 #ifdef _DEBUG
 int main()
@@ -49,6 +57,8 @@ int main()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 #endif
 {
+	SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+
 	/* Initial */
 	glfwInit();
 
@@ -95,6 +105,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	InitImGui(window, FONT_CN, 32);
 
 	glClearColor(0.2f, 0.7f, 0.9f, 1.0f);
 	while (!glfwWindowShouldClose(window))
@@ -104,8 +115,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 		float dt = nowTime - lastTime;
 
 		processInput(window);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		controller->BeforeGLClear(dt);
 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		controller->Render(dt);
 
@@ -116,6 +128,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		lastTime = nowTime;
 	}
+	controller->billboard.SaveToFile();
 
 	glfwTerminate();
 
@@ -157,3 +170,35 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	controller->OnMouseMove(xpos, H-ypos);
 }
 
+void InitImGui(GLFWwindow* window, std::string font_name, int font_size)
+{
+	//imgui
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	const char* glsl_version = "#version 130";
+	ImGui_ImplOpenGL3_Init(glsl_version);
+
+#ifdef _DEBUG
+	io.Fonts->AddFontFromFileTTF(font_name.c_str(), font_size,
+		NULL,
+		io.Fonts->GetGlyphRangesChineseSimplifiedCommon()
+	);
+#else
+	io.Fonts->AddFontFromFileTTF(font_name.c_str(), font_size,
+		NULL,
+		io.Fonts->GetGlyphRangesChineseFull()
+	);
+#endif
+}

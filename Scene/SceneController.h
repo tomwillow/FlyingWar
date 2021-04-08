@@ -2,10 +2,25 @@
 
 #include "Scene.h"
 
+#include "MusicPlayer.h"
+#include "WaveOutEffect.h"
+#include "Billboard.h"
+
+#ifdef min
+#undef min
+#endif
+
+#include <memory>
+
 struct GLFWwindow;
 class SceneController
 {
 public:
+	MusicPlayer bgmPlayer;
+	WaveOutEffect effectPlayer;
+	MusicPlayer jetPlayer;
+	Billboard billboard;
+
 	GLFWwindow* glfw_window;
 	bool keys[1024];
 
@@ -14,6 +29,7 @@ public:
 	void GoCover();
 	void GoLevel(int i);
 
+	void BeforeGLClear(float dt);
 	void Render(float dt);
 	void AfterSwapBuffers(float dt);
 

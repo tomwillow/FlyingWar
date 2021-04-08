@@ -43,6 +43,11 @@ void TCamera::SetDirection(glm::vec3 dir)
 	cameraFront = dir;
 }
 
+void TCamera::SetUp(glm::vec3 up)
+{
+	worldUp = up;
+}
+
 glm::vec3& TCamera::GetPosition()
 {
 	return cameraPos;
@@ -97,12 +102,16 @@ void TCamera::ProcessKeyBoard(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
 		cameraPos.y -= cameraSpeed;
-		cout << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z << endl;
+#ifdef _DEBUG
+		//cout << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z << endl;
+#endif
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
 		cameraPos.y += cameraSpeed;
-		cout << cameraPos.x<<" "<<cameraPos.y<<" "<<cameraPos.z << endl;
+#ifdef _DEBUG
+		//cout << cameraPos.x<<" "<<cameraPos.y<<" "<<cameraPos.z << endl;
+#endif
 	}
 
 }

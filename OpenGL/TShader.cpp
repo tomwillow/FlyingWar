@@ -73,8 +73,10 @@ TShader::~TShader()
 void TShader::UseProgram()const
 {
 	glUseProgram(shaderProgram);
+#ifdef _DEBUG
 	int err = glGetError();
 	assert(err == GL_NO_ERROR);
+#endif
 }
 
 int TShader::GetLocation(std::string name)const

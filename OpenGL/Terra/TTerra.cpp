@@ -261,7 +261,8 @@ void TTerra::Update()
 	glBufferSubData(GL_ARRAY_BUFFER, 0, point_count * data_step * sizeof(float), terra);//
 
 #ifdef _DEBUG
-	assert(glGetError() == 0);
+	int err = glGetError();
+	assert(err == 0);
 #endif
 }
 

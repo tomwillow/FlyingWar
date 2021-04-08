@@ -12,6 +12,13 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 		setupMesh();
 	}
 
+//Mesh::~Mesh()
+//{
+//	glDeleteVertexArrays(1, &VAO);
+//	glDeleteBuffers(1, &VBO);
+//	glDeleteBuffers(1, &EBO);
+//}
+
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);
@@ -74,6 +81,12 @@ void Mesh::Draw(const TShader &shader)
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+#ifdef _DEBUG
+	int err = glGetError();
+	assert(err == GL_NO_ERROR);
+#endif
+
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.

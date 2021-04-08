@@ -72,12 +72,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)include;$(ProjectDir)Scene;$(ProjectDir)OpenGL;$(ProjectDir)OpenGL/Terra;$(ProjectDir)OpenGL/TFreeType;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include;$(ProjectDir)Scene;$(ProjectDir)OpenGL;$(ProjectDir)Media;$(ProjectDir)OpenGL/Terra;$(ProjectDir)OpenGL/TFreeType;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)include;$(ProjectDir)Scene;$(ProjectDir)OpenGL;$(ProjectDir)OpenGL/Terra;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include;$(ProjectDir)Scene;$(ProjectDir)OpenGL;$(ProjectDir)Media;$(ProjectDir)OpenGL/Terra;$(ProjectDir)OpenGL/TFreeType;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,7 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -143,9 +143,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Billboard.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="include\FastNoise\FastNoise.cpp" />
     <ClCompile Include="FlyingWar.cpp" />
+    <ClCompile Include="include\imgui\imgui.cpp" />
+    <ClCompile Include="include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="include\tstring.cpp" />
+    <ClCompile Include="Media\MusicPlayer.cpp" />
+    <ClCompile Include="Media\WaveFile.cpp" />
+    <ClCompile Include="Media\WaveOut.cpp" />
+    <ClCompile Include="Media\WaveOutEffect.cpp" />
     <ClCompile Include="OpenGL\Mesh.cpp" />
     <ClCompile Include="OpenGL\Model.cpp" />
     <ClCompile Include="OpenGL\PureRenderer.cpp" />
@@ -166,10 +181,27 @@
     <ClCompile Include="Scene\SceneLevel.cpp" />
     <ClCompile Include="OpenGL\TSkyBox.cpp" />
     <ClCompile Include="OpenGL\Terra\TerraManager.cpp" />
+    <ClCompile Include="TObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Billboard.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="include\FastNoise\FastNoise.h" />
+    <ClInclude Include="include\imgui\imconfig.h" />
+    <ClInclude Include="include\imgui\imgui.h" />
+    <ClInclude Include="include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="include\imgui\imgui_internal.h" />
+    <ClInclude Include="include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="include\imgui\imstb_textedit.h" />
+    <ClInclude Include="include\imgui\imstb_truetype.h" />
     <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="include\tstring.h" />
+    <ClInclude Include="Media\MusicPlayer.h" />
+    <ClInclude Include="Media\WaveFile.h" />
+    <ClInclude Include="Media\WaveOut.h" />
+    <ClInclude Include="Media\WaveOutEffect.h" />
     <ClInclude Include="OpenGL\Mesh.h" />
     <ClInclude Include="OpenGL\Model.h" />
     <ClInclude Include="OpenGL\PureRenderer.h" />
@@ -192,6 +224,7 @@
     <ClInclude Include="Scene\SceneLevel.h" />
     <ClInclude Include="OpenGL\TSkyBox.h" />
     <ClInclude Include="OpenGL\Terra\TerraManager.h" />
+    <ClInclude Include="TObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

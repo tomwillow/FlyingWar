@@ -52,3 +52,7 @@ std::wstring to_wstring(const std::string& s);
 
 void tolower(std::string& s);
 void toupper(std::string& s);
+
+
+std::string utf82string(const std::string& str);
+std::string string2utf8(const std::string& str);

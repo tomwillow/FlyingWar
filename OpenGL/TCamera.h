@@ -30,6 +30,8 @@ public:
 
 	void SetPosition(glm::vec3 pos);
 	void SetDirection(glm::vec3 dir);
+	void SetUp(glm::vec3 up);
+
 	glm::vec3& GetPosition();
 	glm::vec3 GetTarget();
 	glm::vec3& GetDirection();

@@ -13,6 +13,7 @@ class TSkyBox
 public:
 	//按照 右左上下前后 传入天空盒贴图，顶点、片段着色器文件名
 	TSkyBox(std::vector<std::string> faces,std::string vsfile,std::string fsfile);
+	~TSkyBox();
 
 	//传入view, projection矩阵，绘制天空盒
 	//绘制顺序位于最后

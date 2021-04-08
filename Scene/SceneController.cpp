@@ -11,14 +11,23 @@
 using namespace std;
 
 SceneController::SceneController(GLFWwindow* in_glfw_window) :
-	glfw_window(in_glfw_window)
+	glfw_window(in_glfw_window),
+	bgmPlayer(SOUND_BGM),
+	jetPlayer(SOUND_JET),
+	billboard(RECORD_FILENAME)
 {
-	//GoCover();
-	GoLevel(0);
+	effectPlayer.AddFile(EFFECT_GUN, SOUND_GUN);
+	effectPlayer.AddFile(EFFECT_BOMB, SOUND_BOMB);
+	effectPlayer.PrepareDevice(10);
+
+	GoCover();
+	//GoLevel(0);
 }
 
 void SceneController::GoCover()
 {
+	bgmPlayer.Stop();
+	jetPlayer.Stop();
 	scene = make_unique<SceneCover>(this);
 }
 
@@ -27,11 +36,20 @@ void SceneController::GoLevel(int i)
 	switch (i)
 	{
 	case 0:
+		bgmPlayer.Play();
+		bgmPlayer.SetVolume(50);
+		jetPlayer.Play();
+		jetPlayer.SetVolume(30);
 		scene = make_unique<SceneLevel>(this);
 		break;
 	default:
 		assert("wrong level number");
 	}
+}
+
+void SceneController::BeforeGLClear(float dt)
+{
+	scene->BeforeGLClear(dt);
 }
 
 void SceneController::Render(float dt)

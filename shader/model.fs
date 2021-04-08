@@ -7,6 +7,7 @@ out vec4 color;
 
 uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_diffuse2;
+//uniform vec3 texture_normal1;
 
 uniform vec3 viewPos;
 uniform vec3 lightPos1;
@@ -27,7 +28,7 @@ void main()
   float ambientStrength=0.1f;
   vec3 ambient=ambientStrength*(lightColor1+lightColor2);
   
-  vec3 norm=normalize(Normal);
+  vec3 norm=normalize(Normal);//
   vec3 lightDir1=normalize(lightPos1-FragPos);
   vec3 lightDir2=normalize(lightPos2-FragPos);
   float diff1 = max(dot(norm, lightDir1), 0.0);

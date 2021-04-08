@@ -14,6 +14,7 @@ public:
 	Scene(SceneController * in_controller);
 	virtual ~Scene() = default;
 
+	virtual void BeforeGLClear(float dt) {}
 	virtual void Render(float dt) = 0;
 	virtual void AfterSwapBuffers(float dt) {}
 

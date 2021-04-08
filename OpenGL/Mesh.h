@@ -25,6 +25,10 @@ struct Texture {
 	unsigned int id;
 	std::string type;
 	aiString path;  // 我们储存纹理的路径用于与其它纹理进行比较
+	//~Texture()
+	//{
+	//	glDeleteTextures(1, &id);
+	//}
 };
 
 class Mesh {
@@ -33,12 +37,17 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+
 	/*  函数  */
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	//~Mesh();
+
 	void Draw(const TShader &shader);
 private:
+
 	/*  渲染数据  */
 	unsigned int VAO, VBO, EBO;
+
 	/*  函数  */
 	void setupMesh();
 };

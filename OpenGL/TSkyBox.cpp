@@ -94,6 +94,11 @@ TSkyBox::TSkyBox(std::vector<std::string> faces, std::string vsfile, std::string
 	skyboxShader.Uniform("skybox", 0);
 }
 
+TSkyBox::~TSkyBox()
+{
+	glDeleteTextures(1, &cubemapTexture);
+}
+
 void TSkyBox::Draw(glm::mat4 view,glm::mat4 projection)
 {		
 	// draw skybox as last
