@@ -559,7 +559,7 @@ void WaveFile::ConvertTo(WAVEFORMATEX fmt)
 
 void WaveFile::Resample(int new_nSamplesPerSec)
 {
-	double eq_speed = header.nSamplesPerSec / new_nSamplesPerSec;
+	double eq_speed = (double)header.nSamplesPerSec / (double)new_nSamplesPerSec;
 	ChangeSpeed(eq_speed);
 
 	header.nSamplesPerSec = new_nSamplesPerSec;

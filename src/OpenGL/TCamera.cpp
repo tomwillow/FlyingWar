@@ -1,10 +1,13 @@
 #include "TCamera.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #ifdef _DEBUG
 #include <iostream>
 #endif
+using namespace glm;
 
 using namespace std;
 
@@ -24,6 +27,14 @@ void TCamera::RefreshTime()
 glm::mat4& TCamera::GetViewMatrix()
 {
 	view = glm::lookAt(cameraPos, cameraPos + cameraFront, worldUp);
+
+	//quat q = quatLookAt(cameraFront, worldUp);
+	//mat4 qm = mat4_cast(q);
+
+	//view = mat4(1.0f);
+	//view = translate(view, cameraPos);
+	//view *= qm;
+
 	return view;
 }
 

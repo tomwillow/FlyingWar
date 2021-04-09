@@ -18,6 +18,7 @@ SceneController::SceneController(GLFWwindow* in_glfw_window) :
 {
 	effectPlayer.AddFile(EFFECT_GUN, SOUND_GUN);
 	effectPlayer.AddFile(EFFECT_BOMB, SOUND_BOMB);
+	effectPlayer.AddFile(EFFECT_BUTTON, SOUND_BUTTON);
 	effectPlayer.PrepareDevice(10);
 
 	GoCover();

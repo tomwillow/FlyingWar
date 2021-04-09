@@ -52,5 +52,8 @@
 #define SOUND_BOMB "sound/bomb.wav"
 #define EFFECT_BOMB 1
 
+#define SOUND_BUTTON "sound/button.wav"
+#define EFFECT_BUTTON 2
+
 //
 #define RECORD_FILENAME "record.txt"

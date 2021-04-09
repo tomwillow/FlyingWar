@@ -66,12 +66,14 @@ void SceneCover::BeforeGLClear(float dt)
 		ImGui::SetCursorPos({ (sz.x - button_width) / 2,sz.y / 2 });
 		if (ImGui::Button(u8"开始游戏", { button_width,0 }))
 		{
+			controller->effectPlayer.Play(EFFECT_BUTTON);
 			controller->GoLevel(0);
 		}
 
 		ImGui::SetCursorPosX((sz.x - button_width) / 2);
 		if (ImGui::Button(u8"排行榜", { button_width,0 }))
 		{
+			controller->effectPlayer.Play(EFFECT_BUTTON);
 			ImGui::OpenPopup(u8"排行榜");
 		}
 
@@ -103,6 +105,7 @@ void SceneCover::BeforeGLClear(float dt)
 
 			if (ImGui::Button(u8"确定"))
 			{
+				controller->effectPlayer.Play(EFFECT_BUTTON);
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
@@ -112,6 +115,7 @@ void SceneCover::BeforeGLClear(float dt)
 		ImGui::SetCursorPosX((sz.x - button_width) / 2);
 		if (ImGui::Button(u8"操作说明", { button_width,0 }))
 		{
+			controller->effectPlayer.Play(EFFECT_BUTTON);
 			ImGui::OpenPopup(u8"操作说明");
 		}
 
@@ -126,6 +130,7 @@ void SceneCover::BeforeGLClear(float dt)
 			ImGui::Text(u8"空格：开火");
 			if (ImGui::Button(u8"确定"))
 			{
+				controller->effectPlayer.Play(EFFECT_BUTTON);
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
@@ -135,6 +140,7 @@ void SceneCover::BeforeGLClear(float dt)
 		ImGui::SetCursorPosX((sz.x - button_width) / 2);
 		if (ImGui::Button(u8"退出", { button_width,0 }))
 		{
+			controller->effectPlayer.Play(EFFECT_BUTTON);
 			glfwSetWindowShouldClose(controller->glfw_window, true);
 		}
 
