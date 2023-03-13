@@ -17,3 +17,11 @@ https://github.com/tomwillow/FlyingWar/releases/download/v0.1/FlyingWar.v0.1.zip
 # 视频
 
 https://www.bilibili.com/video/BV1T5411m77r
+
+# 截图
+
+![](snapshot/1.png)
+
+![](snapshot/2.png)
+
+![](snapshot/3.png)
