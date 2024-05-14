@@ -1,0 +1,6 @@
+*.exe
+*.pdb
+*.iobj
+*.ipdb
+imgui.ini
+record.txt

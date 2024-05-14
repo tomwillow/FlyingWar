@@ -25,3 +25,9 @@ https://www.bilibili.com/video/BV1T5411m77r
 ![](snapshot/2.png)
 
 ![](snapshot/3.png)
+
+# 构建须知
+
+因为没有用CMake配置工程，所以环境只能用Windows+Visual Studio 2019。
+
+打开Flying War.sln后，配置需要设置为Debug+x86(依赖库暂时只编译了32位Debug版)。
